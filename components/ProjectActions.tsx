@@ -28,7 +28,7 @@ export const ProjectActions = ({ projectId }: { projectId: string }) => {
   return (
     <>
       <Link
-        href={`/edit/project/${projectId}`}
+        href={`/edit-project/${projectId}`}
         className="flexCenter edit-action_btn"
       >
         <Image src="/pencile.svg" width={15} height={15} alt="edit" />
