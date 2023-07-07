@@ -34,7 +34,7 @@ export const ProjectCard = ({
   return (
     <div className="flexCenter flex-col rounded-2xl drop-shadow-card">
       <Link
-        href={`/projects/${id}`}
+        href={`/project/${id}`}
         className="flexCenter group relative w-full h-full"
       >
         <Image

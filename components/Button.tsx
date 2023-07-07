@@ -3,7 +3,7 @@ import { MouseEventHandler } from "react";
 
 type Props = {
   title: string;
-  isSubmitting: boolean;
+  isSubmitting?: boolean;
   type?: "button" | "submit";
   leftIcon?: string | null;
   rightIcon?: string | null;
