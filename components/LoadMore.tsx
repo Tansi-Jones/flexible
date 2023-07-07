@@ -1,7 +1,6 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-
 import { Button } from "./Button";
 
 type Props = {
@@ -11,7 +10,7 @@ type Props = {
   hasNextPage: boolean;
 };
 
-const LoadMore = ({
+export const LoadMore = ({
   startCursor,
   endCursor,
   hasPreviousPage,
@@ -19,15 +18,15 @@ const LoadMore = ({
 }: Props) => {
   const router = useRouter();
 
-  const handleNavigation = (type: string) => {
+  const handleNavigation = (direction: "first" | "next") => {
     const currentParams = new URLSearchParams(window.location.search);
 
-    if (type === "prev" && hasPreviousPage) {
-      currentParams.delete("endcursor");
-      currentParams.set("startcursor", startCursor);
-    } else if (type === "next" && hasNextPage) {
-      currentParams.delete("startcursor");
+    if (direction === "next" && hasNextPage) {
+      currentParams.delete("startcursor", startCursor);
       currentParams.set("endcursor", endCursor);
+    } else if (direction === "first" && hasPreviousPage) {
+      currentParams.delete("endcursor", endCursor);
+      currentParams.set("startcursor", startCursor);
     }
 
     const newSearchParams = currentParams.toString();
@@ -41,17 +40,15 @@ const LoadMore = ({
       {hasPreviousPage && (
         <Button
           title="First Page"
-          handleClick={() => handleNavigation("prev")}
+          handleClick={() => handleNavigation("first")}
         />
       )}
       {hasNextPage && (
         <Button
-          title="Next Shots"
+          title="Next Page"
           handleClick={() => handleNavigation("next")}
         />
       )}
     </div>
   );
 };
-
-export default LoadMore;
