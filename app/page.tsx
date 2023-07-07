@@ -1,5 +1,6 @@
 import { ProjectInterface } from "@/common.types";
 import { Categories } from "@/components/Categories";
+import { LoadMore } from "@/components/LoadMore";
 import { ProjectCard } from "@/components/ProjectCard";
 import { fetchAllProjects } from "@/lib/actions";
 
@@ -17,16 +18,24 @@ type ProjectSearch = {
 
 type SearchParams = {
   category?: string;
+  endcursor?: string;
 };
 
 type Props = {
   searchParams: SearchParams;
 };
 
-export default async function Home({ searchParams: { category } }: Props) {
-  const data = (await fetchAllProjects(category)) as ProjectSearch;
+export const dynamic = "force-dynamic";
+export const dynamicParams = true;
+export const revalidate = 0;
+
+export default async function Home({
+  searchParams: { category, endcursor },
+}: Props) {
+  const data = (await fetchAllProjects(category, endcursor)) as ProjectSearch;
 
   const projectsToDisplay = data?.projectSearch?.edges || [];
+  const pagination = data?.projectSearch?.pageInfo;
 
   if (projectsToDisplay.length === 0)
     return (
@@ -56,8 +65,12 @@ export default async function Home({ searchParams: { category } }: Props) {
         ))}
       </section>
 
-      <h1>Posts</h1>
-      <h1>LoadMore</h1>
+      <LoadMore
+        startCursor={pagination.startCursor}
+        endCursor={pagination.startCursor}
+        hasPreviousPage={pagination.hasPreviousPage}
+        hasNextPage={pagination.hasNextPage}
+      />
     </section>
   );
 }
