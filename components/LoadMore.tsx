@@ -22,10 +22,10 @@ export const LoadMore = ({
     const currentParams = new URLSearchParams(window.location.search);
 
     if (direction === "next" && hasNextPage) {
-      currentParams.delete("startcursor", startCursor);
+      currentParams.delete("startcursor");
       currentParams.set("endcursor", endCursor);
     } else if (direction === "first" && hasPreviousPage) {
-      currentParams.delete("endcursor", endCursor);
+      currentParams.delete("endcursor");
       currentParams.set("startcursor", startCursor);
     }
 
